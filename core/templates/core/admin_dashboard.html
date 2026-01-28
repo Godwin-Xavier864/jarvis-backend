@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .toggle {
+      cursor: pointer;
+      font-size: 14px;
+      margin-left: 6px;
+      color: blue;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Welcome, {{ request.user.username }}</h2>
+
+<h3>Update Password</h3>
+<form method="post" action="/dashboard/update-password/">
+  {% csrf_token %}
+
+  <input
+    type="password"
+    id="password"
+    name="password"
+    placeholder="New password"
+    required
+  >
+
+  <span class="toggle" onclick="togglePassword(event)">Show</span>
+
+  <br><br>
+  <button type="submit">Update</button>
+</form>
+
+<script>
+  function togglePassword(e) {
+    const pwd = document.getElementById("password");
+    const toggle = e.target;
+
+    if (pwd.type === "password") {
+      pwd.type = "text";
+      toggle.innerText = "Hide";
+    } else {
+      pwd.type = "password";
+      toggle.innerText = "Show";
+    }
+  }
+</script>
+
+<hr>
+
+<h3>Notifications</h3>
+<ul>
+  {% for n in notifications %}
+    <li>
+      {{ n.title }}
+      <a href="/dashboard/delete-notification/{{ n.id }}/">❌</a>
+    </li>
+  {% empty %}
+    <li>No notifications</li>
+  {% endfor %}
+</ul>
+
+<hr>
+
+<h3>Reports</h3>
+<ul>
+  {% for r in reports %}
+    <li>
+      {{ r.subject }} ({{ r.user.username }})
+      <a href="/dashboard/delete-report/{{ r.id }}/">❌</a>
+    </li>
+  {% empty %}
+    <li>No reports</li>
+  {% endfor %}
+</ul>
+
+<hr>
+
+<h3>Clients</h3>
+<ul>
+  {% for c in clients %}
+    <li>
+      {{ c.client_name }} - {{ c.status }}
+      <a href="/dashboard/delete-client/{{ c.id }}/">❌</a>
+    </li>
+  {% empty %}
+    <li>No clients</li>
+  {% endfor %}
+</ul>
+
+</body>
+</html>

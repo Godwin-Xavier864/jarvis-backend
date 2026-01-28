@@ -1,0 +1,7 @@
+Django==5.1.4
+djangorestframework
+djangorestframework-simplejwt
+gunicorn
+python-dotenv
+requests
+groq

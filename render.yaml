@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: jarvis-backend
+    env: python
+    buildCommand: ./build.sh
+    startCommand: gunicorn jarvisapp.wsgi:application
+    plan: free
