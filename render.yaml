@@ -2,6 +2,9 @@ services:
   - type: web
     name: jarvis-backend
     env: python
-    buildCommand: ./build.sh
-    startCommand: gunicorn jarvisapp.wsgi:application
     plan: free
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
+      python manage.py migrate
+    startCommand: gunicorn jarvisapp.wsgi:application
