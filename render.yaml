@@ -3,8 +3,11 @@ services:
     name: jarvis-backend
     env: python
     plan: free
+
     buildCommand: |
       pip install -r requirements.txt
       python manage.py collectstatic --noinput
-      python manage.py migrate
-    startCommand: gunicorn jarvisapp.wsgi:application
+
+    startCommand: |
+      python manage.py migrate --noinput &&
+      gunicorn jarvisapp.wsgi:application
